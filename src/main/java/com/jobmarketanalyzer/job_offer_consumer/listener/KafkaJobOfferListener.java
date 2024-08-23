@@ -3,7 +3,7 @@ package com.jobmarketanalyzer.job_offer_consumer.listener;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOffersDTO;
-import com.jobmarketanalyzer.job_offer_consumer.JobOfferService;
+import com.jobmarketanalyzer.job_offer_consumer.service.JobOfferService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
