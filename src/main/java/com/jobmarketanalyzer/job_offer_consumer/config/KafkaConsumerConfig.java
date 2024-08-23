@@ -1,6 +1,6 @@
 package com.jobmarketanalyzer.job_offer_consumer.config;
 
-import com.jobmarketanalyzer.job_offer_consumer.model.JobOffersDTO;
+import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOffersDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
