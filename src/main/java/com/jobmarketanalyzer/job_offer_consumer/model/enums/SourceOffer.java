@@ -1,4 +1,4 @@
-package com.jobmarketanalyzer.job_offer_consumer.model;
+package com.jobmarketanalyzer.job_offer_consumer.model.enums;
 
 import lombok.RequiredArgsConstructor;
 

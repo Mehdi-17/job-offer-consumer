@@ -2,7 +2,7 @@ package com.jobmarketanalyzer.job_offer_consumer.service;
 
 import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOffersDTO;
 import com.jobmarketanalyzer.job_offer_consumer.model.JobOffer;
-import com.jobmarketanalyzer.job_offer_consumer.model.SourceOffer;
+import com.jobmarketanalyzer.job_offer_consumer.model.enums.SourceOffer;
 import com.jobmarketanalyzer.job_offer_consumer.parser.JobOfferParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
