@@ -1,7 +1,5 @@
 package com.jobmarketanalyzer.job_offer_consumer.parser.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOffersDTO;
 import com.jobmarketanalyzer.job_offer_consumer.model.JobOffer;
@@ -21,21 +19,8 @@ public class IndeedParser implements JobOfferParser {
 
     @Override
     public List<JobOffer> parseJobOffers(JobOffersDTO jobOffersDTO) {
-        try {
-            JsonNode rootNode = objectMapper.readTree(jobOffersDTO.jobsJson());
 
-            for (JsonNode node : rootNode) {
-                String jobValue = node.get("job").asText();
-                log.info("Indeed: extracting job value {}", jobValue);
-                //todo continue to implement
-                // we have to return a list of job offer at the end
-            }
-
-        } catch (JsonProcessingException e) {
-            log.error("Error when parsing Indeed data : {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-
+        //todo transform json element to JobOffer object with objectmapper
         return null;
     }
 }

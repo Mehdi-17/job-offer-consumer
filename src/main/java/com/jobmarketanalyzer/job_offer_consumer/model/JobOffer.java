@@ -27,6 +27,5 @@ public class JobOffer {
     private String source;
     private String title;
     private String description;
-    private String location;
-    private String company;
+    private String dailyRate;
 }
