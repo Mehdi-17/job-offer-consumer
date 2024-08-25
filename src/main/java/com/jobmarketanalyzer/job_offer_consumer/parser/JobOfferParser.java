@@ -6,5 +6,5 @@ import com.jobmarketanalyzer.job_offer_consumer.model.JobOffer;
 import java.util.List;
 
 public interface JobOfferParser {
-    List<JobOffer> parseJobOffers(JobOffersDTO jobOffersDTO);
+    List<JobOffer> parseJobOffers(String jobJson);
 }

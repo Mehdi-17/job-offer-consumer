@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FranceTravailParser implements JobOfferParser {
     @Override
-    public List<JobOffer> parseJobOffers(JobOffersDTO jobOffersDTO) {
+    public List<JobOffer> parseJobOffers(String jobJson) {
         //todo to implement
         return null;
     }
