@@ -29,7 +29,7 @@ public class KafkaJobOfferListener {
             jobOfferService.saveJobOfferFromKafka(jobOffersDTO);
 
         } catch (JsonProcessingException e) {
-            log.error("Error mapping Kafka message to JobOffersDTO. Message: {}. Error: {}", jobOffersMessage, e.getMessage());
+            log.error("Error mapping Kafka message to JobOffersDTO. Message: {}.", jobOffersMessage, e);
 
         }
     }
