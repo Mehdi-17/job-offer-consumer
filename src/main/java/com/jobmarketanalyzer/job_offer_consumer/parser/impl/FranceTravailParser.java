@@ -1,6 +1,5 @@
 package com.jobmarketanalyzer.job_offer_consumer.parser.impl;
 
-import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOffersDTO;
 import com.jobmarketanalyzer.job_offer_consumer.model.JobOffer;
 import com.jobmarketanalyzer.job_offer_consumer.parser.JobOfferParser;
 

@@ -27,7 +27,7 @@ public class IndeedParser implements JobOfferParser {
     @Override
     public List<JobOffer> parseJobOffers(String jobJson) {
         try {
-            List<JobOffer> jobOffers = objectMapper.readValue(jobJson, new TypeReference<List<JobOffer>>() {
+            List<JobOffer> jobOffers = objectMapper.readValue(jobJson, new TypeReference<>() {
             });
 
             RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.INDEED)
