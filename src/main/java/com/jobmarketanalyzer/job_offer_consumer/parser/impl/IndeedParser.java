@@ -33,6 +33,7 @@ public class IndeedParser implements JobOfferParser {
             RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.INDEED)
                     .orElseThrow(() -> new NoSuchElementException("Source " + SourceOffer.INDEED + " not found in the database."));
 
+            //todo: check description if data are good
             jobOffers.forEach(jobOffer -> jobOffer.setSource(source));
 
             return jobOffers;

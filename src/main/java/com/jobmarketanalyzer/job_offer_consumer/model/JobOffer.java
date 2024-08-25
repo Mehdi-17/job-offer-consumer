@@ -1,11 +1,11 @@
 package com.jobmarketanalyzer.job_offer_consumer.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class JobOffer {
     private RefOfferSource source;
     private String title;
 
-    @Lob
+    @Column(columnDefinition = "text")
     private String description;
     private String dailyRate;
 }
