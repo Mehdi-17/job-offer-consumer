@@ -8,7 +8,7 @@ import com.jobmarketanalyzer.job_offer_consumer.model.JobOffer;
 import com.jobmarketanalyzer.job_offer_consumer.model.RefOfferSource;
 import com.jobmarketanalyzer.job_offer_consumer.model.enums.SourceOffer;
 import com.jobmarketanalyzer.job_offer_consumer.parser.JobOfferParser;
-import com.jobmarketanalyzer.job_offer_consumer.repository.RefSourceOfferRepository;
+import com.jobmarketanalyzer.job_offer_consumer.repository.RefOfferSourceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
 public class IndeedParser implements JobOfferParser {
 
     private final ObjectMapper objectMapper;
-    private final RefSourceOfferRepository refSourceOfferRepository;
+    private final RefOfferSourceRepository refOfferSourceRepository;
 
     @Override
     public List<JobOffer> parseJobOffers(String jobJson) {
@@ -30,7 +30,7 @@ public class IndeedParser implements JobOfferParser {
             List<JobOffer> jobOffers = objectMapper.readValue(jobJson, new TypeReference<List<JobOffer>>() {
             });
 
-            RefOfferSource source = refSourceOfferRepository.findBySource(SourceOffer.INDEED)
+            RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.INDEED)
                     .orElseThrow(() -> new NoSuchElementException("Source " + SourceOffer.INDEED + " not found in the database."));
 
             jobOffers.forEach(jobOffer -> jobOffer.setSource(source));
