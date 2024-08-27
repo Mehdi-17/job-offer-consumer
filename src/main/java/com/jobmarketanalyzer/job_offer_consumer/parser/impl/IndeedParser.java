@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
@@ -33,13 +34,25 @@ public class IndeedParser implements JobOfferParser {
             RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.INDEED)
                     .orElseThrow(() -> new NoSuchElementException("Source " + SourceOffer.INDEED + " not found in the database."));
 
-            //todo: check description if data are good
-            jobOffers.forEach(jobOffer -> jobOffer.setSource(source));
+            jobOffers.forEach(jobOffer -> {
+                jobOffer.setSource(source);
+                jobOffer.setDescription(removeHtmlTag(jobOffer.getDescription()));
+
+            });
 
             return jobOffers;
         } catch (JsonProcessingException e) {
             log.error("Unable to parse Job offers from json.", e);
             throw new JobOfferParseException("Failed to parse job offers from Indeed JSON", e);
         }
+    }
+
+    private String removeHtmlTag(String textWithHtml) {
+        if (textWithHtml == null) {
+            return null;
+        }
+
+        Pattern pattern = Pattern.compile("<[^>]*>");
+        return pattern.matcher(textWithHtml).replaceAll("");
     }
 }
