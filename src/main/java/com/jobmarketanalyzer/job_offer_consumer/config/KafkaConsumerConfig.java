@@ -1,6 +1,6 @@
 package com.jobmarketanalyzer.job_offer_consumer.config;
 
-import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOffersDTO;
+import com.jobmarketanalyzer.job_offer_consumer.DTO.JsonJobOffersDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,13 +32,13 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, JobOffersDTO> consumerFactory() {
+    public ConsumerFactory<String, JsonJobOffersDTO> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfig());
     }
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, JobOffersDTO>> factory(ConsumerFactory<String, JobOffersDTO> consumerFactory){
-        ConcurrentKafkaListenerContainerFactory<String, JobOffersDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, JsonJobOffersDTO>> factory(ConsumerFactory<String, JsonJobOffersDTO> consumerFactory){
+        ConcurrentKafkaListenerContainerFactory<String, JsonJobOffersDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;
     }

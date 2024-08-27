@@ -3,6 +3,7 @@ package com.jobmarketanalyzer.job_offer_consumer.parser.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOfferDTO;
 import com.jobmarketanalyzer.job_offer_consumer.exception.JobOfferParseException;
 import com.jobmarketanalyzer.job_offer_consumer.model.JobOffer;
 import com.jobmarketanalyzer.job_offer_consumer.model.RefOfferSource;
@@ -28,21 +29,23 @@ public class IndeedParser implements JobOfferParser {
     @Override
     public List<JobOffer> parseJobOffers(String jobJson) {
         try {
-            //todo parser en objet DTO
-            List<JobOffer> jobOfferList = objectMapper.readValue(jobJson, new TypeReference<>() {
+            List<JobOfferDTO> jobOfferDTOS = objectMapper.readValue(jobJson, new TypeReference<>() {
             });
 
             RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.INDEED)
                     .orElseThrow(() -> new NoSuchElementException("Source " + SourceOffer.INDEED + " not found in the database."));
 
-            jobOfferList.forEach(jobOffer -> {
-                jobOffer.setSource(source);
-                jobOffer.setDescription(cleanText(jobOffer.getDescription()));
-                jobOffer.setDate(LocalDate.now());
-                //todo faire une création de joboffer avec build en essayant de parser les salaire
-            });
-
-            return jobOfferList;
+            return jobOfferDTOS.stream().map(jobOfferDTO ->
+                            JobOffer.builder()
+                                    .source(source)
+                                    .title(jobOfferDTO.title())
+                                    .date(LocalDate.now())
+                                    //todo to parse through jobOfferDTO.dailyRate()
+                                    .minSalary(null)
+                                    .maxSalary(null)
+                                    .description(cleanText(jobOfferDTO.description()))
+                                    .build())
+                    .toList();
         } catch (JsonProcessingException e) {
             log.error("Unable to parse Job offers from json.", e);
             throw new JobOfferParseException("Failed to parse job offers from Indeed JSON", e);
