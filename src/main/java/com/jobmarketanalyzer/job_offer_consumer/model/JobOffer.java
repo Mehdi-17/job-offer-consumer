@@ -35,12 +35,16 @@ public class JobOffer {
 
     private String title;
 
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "min_salary")
+    private Long minSalary;
+
+    @Column(name = "max_salary")
+    private Long maxSalary;
+
     @Column(columnDefinition = "text")
     private String description;
 
-    @Column(name = "daily_rate")
-    private String dailyRate;
-
-    @Column(name = "date")
-    private LocalDate date;
 }

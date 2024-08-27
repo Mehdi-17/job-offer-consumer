@@ -28,6 +28,7 @@ public class IndeedParser implements JobOfferParser {
     @Override
     public List<JobOffer> parseJobOffers(String jobJson) {
         try {
+            //todo parser en objet DTO
             List<JobOffer> jobOfferList = objectMapper.readValue(jobJson, new TypeReference<>() {
             });
 
@@ -38,6 +39,7 @@ public class IndeedParser implements JobOfferParser {
                 jobOffer.setSource(source);
                 jobOffer.setDescription(cleanText(jobOffer.getDescription()));
                 jobOffer.setDate(LocalDate.now());
+                //todo faire une création de joboffer avec build en essayant de parser les salaire
             });
 
             return jobOfferList;
