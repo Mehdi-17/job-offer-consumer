@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -27,19 +28,19 @@ public class IndeedParser implements JobOfferParser {
     @Override
     public List<JobOffer> parseJobOffers(String jobJson) {
         try {
-            List<JobOffer> jobOffers = objectMapper.readValue(jobJson, new TypeReference<>() {
+            List<JobOffer> jobOfferList = objectMapper.readValue(jobJson, new TypeReference<>() {
             });
 
             RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.INDEED)
                     .orElseThrow(() -> new NoSuchElementException("Source " + SourceOffer.INDEED + " not found in the database."));
 
-            jobOffers.forEach(jobOffer -> {
+            jobOfferList.forEach(jobOffer -> {
                 jobOffer.setSource(source);
                 jobOffer.setDescription(cleanText(jobOffer.getDescription()));
-
+                jobOffer.setDate(LocalDate.now());
             });
 
-            return jobOffers;
+            return jobOfferList;
         } catch (JsonProcessingException e) {
             log.error("Unable to parse Job offers from json.", e);
             throw new JobOfferParseException("Failed to parse job offers from Indeed JSON", e);
