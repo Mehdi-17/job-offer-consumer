@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "jobs")
 @Builder
@@ -30,9 +32,15 @@ public class JobOffer {
     @ManyToOne
     @JoinColumn(name = "source_id", nullable = false)
     private RefOfferSource source;
+
     private String title;
 
     @Column(columnDefinition = "text")
     private String description;
+
+    @Column(name = "daily_rate")
     private String dailyRate;
+
+    @Column(name = "date")
+    private LocalDate date;
 }
