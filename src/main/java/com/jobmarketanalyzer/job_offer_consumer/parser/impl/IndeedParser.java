@@ -36,7 +36,7 @@ public class IndeedParser implements JobOfferParser {
 
             jobOffers.forEach(jobOffer -> {
                 jobOffer.setSource(source);
-                jobOffer.setDescription(removeHtmlTag(jobOffer.getDescription()));
+                jobOffer.setDescription(cleanText(jobOffer.getDescription()));
 
             });
 
@@ -47,12 +47,12 @@ public class IndeedParser implements JobOfferParser {
         }
     }
 
-    private String removeHtmlTag(String textWithHtml) {
+    private String cleanText(String textWithHtml) {
         if (textWithHtml == null) {
             return null;
         }
 
-        Pattern pattern = Pattern.compile("<[^>]*>");
-        return pattern.matcher(textWithHtml).replaceAll("");
+        String withoutHtml = textWithHtml.replaceAll("<[^>]*>", "");
+        return withoutHtml.replaceAll("[\n\r\t]+", " ").trim();
     }
 }
