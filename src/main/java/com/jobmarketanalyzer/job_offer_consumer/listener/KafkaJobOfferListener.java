@@ -22,6 +22,7 @@ public class KafkaJobOfferListener {
         try {
             log.info("Received Job Offers from Kafka : {} ", jobOffersMessage);
 
+            //TODO ADD COMPANY TO JOBOFFER
             JsonJobOffersDTO jsonJobOffersDTO = objectMapper.readValue(jobOffersMessage, JsonJobOffersDTO.class);
 
             log.info("Successfully mapped message to JsonJobOffersDTO.");

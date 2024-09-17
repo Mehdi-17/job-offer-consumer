@@ -19,6 +19,7 @@ public class JobOfferService {
     public void saveJobOfferFromKafka(JsonJobOffersDTO jsonJobOffersDTO) {
         SourceOffer sourceOffer = SourceOffer.getSourceFromString(jsonJobOffersDTO.source());
 
+        //todo add freework
         jobOfferRepository.saveAll(switch (sourceOffer) {
                     case INDEED -> indeedParser.parseJobOffers(jsonJobOffersDTO.jobsJson());
                     case FRANCE_TRAVAIL -> franceTravailParser.parseJobOffers(jsonJobOffersDTO.jobsJson());
