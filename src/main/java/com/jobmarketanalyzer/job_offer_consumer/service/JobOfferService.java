@@ -20,6 +20,7 @@ public class JobOfferService {
         SourceOffer sourceOffer = SourceOffer.getSourceFromString(jsonJobOffersDTO.source());
 
         //todo add freework
+        //  add freework to the database too
         jobOfferRepository.saveAll(switch (sourceOffer) {
                     case INDEED -> indeedParser.parseJobOffers(jsonJobOffersDTO.jobsJson());
                     case FRANCE_TRAVAIL -> franceTravailParser.parseJobOffers(jsonJobOffersDTO.jobsJson());
