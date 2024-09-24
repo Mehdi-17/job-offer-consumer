@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobmarketanalyzer.job_offer_consumer.DTO.JobOfferDTO;
+import com.jobmarketanalyzer.job_offer_consumer.DTO.JsonJobOffersDTO;
 import com.jobmarketanalyzer.job_offer_consumer.exception.JobOfferParseException;
 import com.jobmarketanalyzer.job_offer_consumer.model.JobOffer;
 import com.jobmarketanalyzer.job_offer_consumer.model.RefOfferSource;
@@ -22,22 +23,24 @@ import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.StringTemplate.STR;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class IndeedParser implements JobOfferParser {
+public class ScrapingParser implements JobOfferParser {
 
     private final ObjectMapper objectMapper;
     private final RefOfferSourceRepository refOfferSourceRepository;
 
     @Override
-    public List<JobOffer> parseJobOffers(String jobJson) {
+    public List<JobOffer> parseJobOffers(JsonJobOffersDTO jsonJobOffersDTO) {
         try {
-            List<JobOfferDTO> jobOfferDTOS = objectMapper.readValue(jobJson, new TypeReference<>() {
+            List<JobOfferDTO> jobOfferDTOS = objectMapper.readValue(jsonJobOffersDTO.jobsJson(), new TypeReference<>() {
             });
 
-            RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.INDEED)
-                    .orElseThrow(() -> new NoSuchElementException("Source " + SourceOffer.INDEED + " not found in the database."));
+            RefOfferSource source = refOfferSourceRepository.findBySource(SourceOffer.getSourceFromString(jsonJobOffersDTO.source()))
+                    .orElseThrow(() -> new NoSuchElementException("Source " + jsonJobOffersDTO.source() + " not found in the database."));
 
             return jobOfferDTOS.stream().map(jobOfferDTO -> {
                         SalaryRange minAndMaxSalaries = getMinAndMaxSalariesFromString(jobOfferDTO.dailyRate());
@@ -48,12 +51,13 @@ public class IndeedParser implements JobOfferParser {
                                 .minSalary(minAndMaxSalaries.minSalary())
                                 .maxSalary(minAndMaxSalaries.maxSalary())
                                 .description(cleanText(jobOfferDTO.description()))
+                                .companyName(jobOfferDTO.company())
                                 .build();
                     })
                     .toList();
         } catch (JsonProcessingException e) {
             log.error("Unable to parse Job offers from json.", e);
-            throw new JobOfferParseException("Failed to parse job offers from Indeed JSON", e);
+            throw new JobOfferParseException(STR."Failed to parse job offers from \{jsonJobOffersDTO.source()} JSON", e);
         }
     }
 
@@ -76,7 +80,7 @@ public class IndeedParser implements JobOfferParser {
     private List<Long> extractNumbersFromString(String input){
         List<Long> numbers = new ArrayList<>();
 
-        //Regex pour garder les nombre en ignorant les espaces et les séparateurs de milliers
+        //Regex pour garder les nombres en ignorant les espaces et les séparateurs de milliers
         Pattern pattern = Pattern.compile("\\b\\d+(?:[\\s,.]\\d+)*\\b");
         Matcher matcher = pattern.matcher(input);
 
