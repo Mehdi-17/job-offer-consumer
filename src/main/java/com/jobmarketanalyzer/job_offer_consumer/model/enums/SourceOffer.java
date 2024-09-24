@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SourceOffer {
     FRANCE_TRAVAIL,
-    INDEED;
+    INDEED,
+    FREEWORK;
+
     public static SourceOffer getSourceFromString(String source) {
         for (SourceOffer sourceOffer : SourceOffer.values()) {
             if (sourceOffer.name().equalsIgnoreCase(source)) {

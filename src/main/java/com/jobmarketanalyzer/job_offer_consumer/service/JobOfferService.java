@@ -15,14 +15,14 @@ public class JobOfferService {
     private final JobOfferRepository jobOfferRepository;
     private final JobOfferParser indeedParser;
     private final JobOfferParser franceTravailParser;
+    private final JobOfferParser freeworkParser;
 
     public void saveJobOfferFromKafka(JsonJobOffersDTO jsonJobOffersDTO) {
         SourceOffer sourceOffer = SourceOffer.getSourceFromString(jsonJobOffersDTO.source());
 
-        //todo add freework
-        //  add freework to the database too
         jobOfferRepository.saveAll(switch (sourceOffer) {
                     case INDEED -> indeedParser.parseJobOffers(jsonJobOffersDTO.jobsJson());
+                    case FREEWORK -> freeworkParser.parseJobOffers(jsonJobOffersDTO.jobsJson());
                     case FRANCE_TRAVAIL -> franceTravailParser.parseJobOffers(jsonJobOffersDTO.jobsJson());
                 }
         );
